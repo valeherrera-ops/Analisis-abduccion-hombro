@@ -1,304 +1,212 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="Aplicación web para analizar el ángulo de rodilla durante una zancada hacia adelante mediante MediaPipe Pose Landmarker."
-  />
-  <title>Análisis Bioinstrumental de la Zancada</title>
-
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="preconnect" href="https://storage.googleapis.com" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aplicación universitaria para analizar la abducción bilateral de hombro mediante video y estimación de pose con MediaPipe." />
+  <title>Análisis Bioinstrumental de la Abducción de Hombro</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Chart.js se usa únicamente para visualizar los resultados calculados. -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"
-    defer
-  ></script>
-  <script type="module" src="script.js"></script>
 </head>
-
 <body>
   <header class="hero">
     <div class="container hero__content">
       <p class="eyebrow">Kinesiología · Análisis Bioinstrumental del Movimiento Humano</p>
-      <h1>Análisis Bioinstrumental de la Zancada</h1>
-      <p class="hero__subtitle">
-        Evaluación del ángulo de rodilla mediante análisis de video
-      </p>
-      <p class="hero__description">
-        Esta herramienta estima la posición de cadera, rodilla y tobillo de una
-        pierna durante una zancada hacia adelante grabada de perfil. A partir de
-        esos puntos calcula el ángulo interno de la rodilla a lo largo del video.
-      </p>
+      <h1>Análisis Bioinstrumental de la Abducción de Hombro</h1>
+      <p class="hero__subtitle">Evaluación del movimiento mediante análisis de video</p>
+      <p class="hero__note">La aplicación entrega mediciones descriptivas obtenidas desde el video. No realiza diagnósticos clínicos.</p>
     </div>
   </header>
 
   <main class="container main-grid">
-    <section class="card upload-card" aria-labelledby="upload-title">
+    <section class="card" id="informacion">
       <div class="section-heading">
+        <span class="step">1</span>
         <div>
-          <p class="step-label">Paso 1</p>
-          <h2 id="upload-title">Cargar video</h2>
+          <h2>Información del análisis</h2>
+          <p>Se cuantifica la elevación lateral de ambos brazos usando hombro, codo y cadera como referencias anatómicas.</p>
         </div>
       </div>
-
-      <div class="upload-area">
-        <input
-          id="videoInput"
-          class="visually-hidden"
-          type="file"
-          accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm"
-        />
-        <label class="button button--primary" for="videoInput">
-          Cargar video
-        </label>
-
-        <div class="file-info" aria-live="polite">
-          <span class="file-info__label">Archivo:</span>
-          <span id="fileName">Ningún video cargado</span>
-        </div>
+      <div class="info-grid">
+        <article class="mini-card">
+          <h3>Variable principal</h3>
+          <p>Ángulo de abducción del hombro derecho e izquierdo, expresado en grados.</p>
+        </article>
+        <article class="mini-card">
+          <h3>Variable secundaria</h3>
+          <p>Diferencia absoluta entre los ángulos máximos de ambos hombros.</p>
+        </article>
+        <article class="mini-card">
+          <h3>Método</h3>
+          <p>Estimación de pose con MediaPipe Pose Landmarker y cálculo geométrico desde coordenadas reales del video.</p>
+        </article>
       </div>
-
-      <div class="instructions">
-        <h3>Para obtener mejores resultados:</h3>
-        <ul>
-          <li>Grabe a la persona de perfil.</li>
-          <li>Mantenga todo el cuerpo visible.</li>
-          <li>Utilice buena iluminación.</li>
-          <li>Evite que otras personas aparezcan en el video.</li>
-          <li>Mantenga la cámara fija durante la grabación.</li>
-        </ul>
-      </div>
-
-      <p class="compatibility-note">
-        Formatos aceptados: MP4, MOV y WebM cuando el navegador pueda reproducir
-        el códec utilizado.
-      </p>
     </section>
 
-    <section class="card video-card" aria-labelledby="video-title">
-      <div class="section-heading section-heading--split">
+    <section class="card" id="recomendaciones">
+      <div class="section-heading">
+        <span class="step">2</span>
         <div>
-          <p class="step-label">Paso 2</p>
-          <h2 id="video-title">Visualización y análisis</h2>
-        </div>
-        <span id="videoStatusBadge" class="status-badge">Sin video</span>
-      </div>
-
-      <div id="videoStage" class="video-stage video-stage--empty">
-        <video
-          id="video"
-          controls
-          playsinline
-          preload="metadata"
-          aria-label="Video cargado para análisis de zancada"
-        ></video>
-        <canvas
-          id="overlayCanvas"
-          aria-hidden="true"
-        ></canvas>
-
-        <div id="videoPlaceholder" class="video-placeholder">
-          <span class="video-placeholder__icon" aria-hidden="true">▶</span>
-          <p>El video cargado aparecerá aquí.</p>
+          <h2>Recomendaciones para la grabación</h2>
+          <p>Para obtener mejores resultados:</p>
         </div>
       </div>
+      <ul class="recommendations">
+        <li>Ubique la cámara frente a la persona.</li>
+        <li>Mantenga la cámara fija.</li>
+        <li>Grabe con buena iluminación.</li>
+        <li>Mantenga visible el tronco, brazos y caderas durante todo el movimiento.</li>
+        <li>Evite ropa excesivamente holgada.</li>
+        <li>Evite que otras personas aparezcan en el video.</li>
+        <li>Comience con ambos brazos a los costados del cuerpo.</li>
+        <li>Eleve ambos brazos lateralmente.</li>
+        <li>Realice el movimiento de forma continua.</li>
+        <li>Evite mover o girar excesivamente el tronco durante la grabación.</li>
+      </ul>
+    </section>
 
-      <fieldset class="leg-selector">
-        <legend>Pierna a evaluar</legend>
-
-        <label class="radio-option">
-          <input
-            type="radio"
-            name="leg"
-            value="right"
-            checked
-          />
-          <span>Pierna derecha</span>
-        </label>
-
-        <label class="radio-option">
-          <input
-            type="radio"
-            name="leg"
-            value="left"
-          />
-          <span>Pierna izquierda</span>
-        </label>
-      </fieldset>
-
-      <div class="actions">
-        <button
-          id="analyzeButton"
-          class="button button--primary"
-          type="button"
-          disabled
-        >
-          Analizar zancada
-        </button>
-
-        <button
-          id="resetButton"
-          class="button button--secondary"
-          type="button"
-          disabled
-        >
-          Reiniciar análisis
-        </button>
+    <section class="card" id="carga-video">
+      <div class="section-heading">
+        <span class="step">3</span>
+        <div>
+          <h2>Carga del video</h2>
+          <p>Formatos esperados: MP4, WebM y MOV cuando el navegador pueda reproducirlo.</p>
+        </div>
       </div>
 
-      <div
-        id="progressPanel"
-        class="progress-panel"
-        role="status"
-        aria-live="polite"
-        hidden
-      >
-        <div class="progress-panel__top">
-          <span class="spinner" aria-hidden="true"></span>
-          <span id="progressText">Analizando movimiento...</span>
-          <span id="progressPercent">0%</span>
+      <div class="upload-box">
+        <input id="videoInput" type="file" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov" hidden />
+        <button id="loadButton" class="btn btn--primary" type="button">Cargar video</button>
+        <div class="file-details" aria-live="polite">
+          <span class="file-label">Archivo:</span>
+          <span id="fileName">Ningún video seleccionado</span>
+        </div>
+      </div>
+
+      <div id="messageBox" class="message hidden" role="alert" aria-live="assertive"></div>
+    </section>
+
+    <section class="card" id="visualizacion-video">
+      <div class="section-heading">
+        <span class="step">4</span>
+        <div>
+          <h2>Visualización del video</h2>
+          <p>Durante la reproducción, la superposición muestra las mediciones previamente calculadas para el instante más cercano.</p>
+        </div>
+      </div>
+
+      <div class="video-stage" id="videoStage">
+        <video id="videoElement" controls playsinline preload="metadata"></video>
+        <canvas id="overlayCanvas" aria-label="Superposición de puntos anatómicos y ángulos"></canvas>
+        <div id="videoPlaceholder" class="video-placeholder">Cargue un video para comenzar</div>
+      </div>
+
+      <div class="action-row">
+        <button id="analyzeButton" class="btn btn--accent" type="button" disabled>Analizar movimiento</button>
+        <button id="resetButton" class="btn btn--secondary" type="button">Reiniciar análisis</button>
+      </div>
+
+      <div id="progressArea" class="progress-area hidden" aria-live="polite">
+        <div class="progress-text-row">
+          <strong>Analizando movimiento…</strong>
+          <span id="progressText">0%</span>
         </div>
         <div class="progress-track" aria-hidden="true">
           <div id="progressBar" class="progress-bar"></div>
         </div>
+        <p id="progressDetail" class="muted">Preparando el modelo de estimación de pose.</p>
       </div>
-
-      <div id="messageBox" class="message" aria-live="polite" hidden></div>
     </section>
 
-    <section id="resultsSection" class="card results-card" aria-labelledby="results-title" hidden>
-      <div class="section-heading section-heading--split">
-        <div>
-          <p class="step-label">Resultados</p>
-          <h2 id="results-title">Indicadores biomecánicos</h2>
-        </div>
-        <span id="qualityBadge" class="status-badge status-badge--success">
-          Análisis completado
-        </span>
-      </div>
-
-      <div class="metrics-grid">
-        <article class="metric">
-          <span class="metric__label">Ángulo mínimo</span>
-          <strong id="minAngle" class="metric__value">—</strong>
-          <span class="metric__unit">grados</span>
-        </article>
-
-        <article class="metric">
-          <span class="metric__label">Ángulo máximo</span>
-          <strong id="maxAngle" class="metric__value">—</strong>
-          <span class="metric__unit">grados</span>
-        </article>
-
-        <article class="metric">
-          <span class="metric__label">Rango angular</span>
-          <strong id="rangeAngle" class="metric__value">—</strong>
-          <span class="metric__unit">grados</span>
-        </article>
-
-        <article class="metric">
-          <span class="metric__label">Momento de máxima flexión</span>
-          <strong id="minAngleTime" class="metric__value">—</strong>
-          <span class="metric__unit">segundos</span>
-        </article>
-      </div>
-
-      <p id="detectionSummary" class="detection-summary"></p>
-    </section>
-
-    <section id="chartSection" class="card chart-card" aria-labelledby="chart-title" hidden>
+    <section class="card hidden" id="resultsSection">
       <div class="section-heading">
+        <span class="step">5</span>
         <div>
-          <p class="step-label">Curva temporal</p>
-          <h2 id="chart-title">Ángulo de rodilla durante la zancada</h2>
+          <h2>Resultados</h2>
+          <p>Los valores provienen exclusivamente de frames válidos detectados en el video.</p>
         </div>
       </div>
 
+      <div class="result-grid">
+        <article class="result-card">
+          <p class="result-card__label">Hombro derecho</p>
+          <p class="result-card__value" id="rightMax">—</p>
+          <p class="result-card__detail">Máximo a los <strong id="rightMaxTime">—</strong></p>
+        </article>
+        <article class="result-card">
+          <p class="result-card__label">Hombro izquierdo</p>
+          <p class="result-card__value" id="leftMax">—</p>
+          <p class="result-card__detail">Máximo a los <strong id="leftMaxTime">—</strong></p>
+        </article>
+        <article class="result-card result-card--wide">
+          <p class="result-card__label">Simetría descriptiva</p>
+          <p class="result-card__value" id="differenceMax">—</p>
+          <p class="result-card__detail">Diferencia absoluta entre los máximos. No corresponde a una clasificación clínica.</p>
+        </article>
+      </div>
+
+      <div class="quality-summary" id="qualitySummary"></div>
+    </section>
+
+    <section class="card hidden" id="chartSection">
+      <div class="section-heading">
+        <span class="step">6</span>
+        <div>
+          <h2>Gráfico</h2>
+          <p>Evolución temporal del ángulo de abducción de ambos hombros.</p>
+        </div>
+      </div>
       <div class="chart-wrapper">
-        <canvas
-          id="angleChart"
-          role="img"
-          aria-label="Gráfico del ángulo de rodilla en función del tiempo"
-        ></canvas>
+        <canvas id="angleChart" aria-label="Gráfico de ángulo de abducción por tiempo"></canvas>
       </div>
-
-      <p class="chart-note">
-        El punto destacado corresponde al menor ángulo de rodilla detectado.
-        Los frames sin detección confiable se excluyen del cálculo y del gráfico.
-      </p>
     </section>
 
-    <section id="frameSection" class="card frame-card" aria-labelledby="frame-title" hidden>
+    <section class="card hidden" id="symmetrySection">
       <div class="section-heading">
+        <span class="step">7</span>
         <div>
-          <p class="step-label">Frame de referencia</p>
-          <h2 id="frame-title">Momento de máxima flexión detectada</h2>
+          <h2>Simetría</h2>
+          <p>Comparación cuantitativa entre los valores máximos alcanzados por cada lado.</p>
         </div>
       </div>
-
-      <div class="max-flexion-frame">
-        <canvas
-          id="maxFlexionCanvas"
-          aria-label="Captura del momento de máxima flexión de rodilla"
-        ></canvas>
+      <div class="formula-box">
+        <p><strong>Diferencia angular máxima = |máximo derecho − máximo izquierdo|</strong></p>
+        <p id="symmetryFormula">—</p>
       </div>
-      <p id="frameCaption" class="frame-caption"></p>
     </section>
 
-    <section id="interpretationSection" class="card interpretation-card" aria-labelledby="interpretation-title" hidden>
+    <section class="card hidden" id="maxFrameSection">
       <div class="section-heading">
+        <span class="step">8</span>
         <div>
-          <p class="step-label">Síntesis</p>
-          <h2 id="interpretation-title">Interpretación de resultados</h2>
+          <h2>Frame de máxima elevación</h2>
+          <p>Captura cercana al instante donde el promedio de ambos ángulos fue mayor.</p>
         </div>
       </div>
-
-      <p id="interpretationText"></p>
-      <p class="clinical-note">
-        Esta aplicación entrega una descripción cuantitativa del video analizado.
-        No determina si el movimiento es correcto, incorrecto, normal, anormal o
-        patológico, y no realiza diagnóstico clínico.
-      </p>
+      <div class="capture-wrapper">
+        <canvas id="maxFrameCanvas" aria-label="Frame de máxima elevación con puntos anatómicos y ángulos"></canvas>
+      </div>
+      <p id="maxFrameCaption" class="muted"></p>
     </section>
 
-    <section class="card method-card" aria-labelledby="method-title">
+    <section class="card hidden" id="interpretationSection">
       <div class="section-heading">
+        <span class="step">9</span>
         <div>
-          <p class="step-label">Método</p>
-          <h2 id="method-title">¿Qué se calcula?</h2>
+          <h2>Interpretación de resultados</h2>
+          <p>Descripción automática basada únicamente en los valores medidos.</p>
         </div>
       </div>
-
-      <p>
-        MediaPipe identifica puntos anatómicos de la pose. Para la pierna
-        seleccionada se utilizan cadera, rodilla y tobillo. El ángulo se calcula
-        en la rodilla mediante el producto punto de dos vectores:
-        <strong>rodilla→cadera</strong> y <strong>rodilla→tobillo</strong>.
-      </p>
-
-      <div class="formula" aria-label="Fórmula del ángulo de rodilla">
-        θ = arccos[(u · v) / (|u| |v|)]
-      </div>
-
-      <p>
-        En esta convención, una rodilla cercana a la extensión presenta un ángulo
-        próximo a 180°, y el ángulo disminuye a medida que aumenta la flexión.
-      </p>
+      <div id="interpretationText" class="interpretation-box"></div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <p>
-        Proyecto académico · Procesamiento local en el navegador mediante
-        estimación de pose.
-      </p>
+      <p>Proyecto académico · Kinesiología · Análisis Bioinstrumental del Movimiento Humano</p>
     </div>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
